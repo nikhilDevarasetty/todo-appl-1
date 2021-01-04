@@ -5,7 +5,18 @@ const fs = require("fs");
 const cors = require("cors");
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "*",
+  })
+);
+
+const port = process.env.PORT || 9999;
+
+app.get("/", (req, res) => {
+  res.send("server is working");
+});
 
 app.get("/todo", (req, res) => {
   fs.readdir("todo", "utf-8", (err, files) => {
@@ -82,6 +93,6 @@ app.delete("/todo", (req, res) => {
   });
 });
 
-app.listen(9999, () => {
-  console.log("app is listening to port 9999!");
+app.listen(port, () => {
+  console.log(`app is listening to port ${port}!`);
 });
